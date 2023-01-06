@@ -1,0 +1,8 @@
+;(function($){"use strict";var l18n=window.mailchimp_api_v3_l18n||null;if(!l18n){return;}
+var doingAJAX=false;var submit=document.getElementById("mailchimp-api-v3-submit");if(submit){submit.addEventListener("click",handleMailchimpSignup,false);}
+function handleMailchimpSignup(event){event.preventDefault();if(doingAJAX){return;}
+var nameInput=document.getElementById("mailchimp-api-v3-name"),emailInput=document.getElementById("mailchimp-api-v3-email"),name=nameInput!==null?nameInput.value:null,email=emailInput!==null?emailInput.value:null;if(!name||name.toLowerCase()==="name"||!email||email.toLowerCase()==="email"){window.alert(l18n.empty_field);return;}
+var data={action:"mailchimp_api_v3_add_subscriber",nonce:l18n.nonce,name:name,email:email};var lang=l18n.current_language||null;if(lang){data.language=lang;}
+submit.disabled=true;doingAJAX=true;$.post(l18n.ajax_url,data,function(data,textStatus,jqXHR){if(data.status==="success"){if(data.message){window.alert(data.message);nameInput.value="";emailInput.value="";}}
+if(data.status==="failed"){if(data.message){window.alert(data.message);}}
+submit.disabled=false;doingAJAX=false;});}}(jQuery))
